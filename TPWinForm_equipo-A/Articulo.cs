@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Dominio {
     public class Articulo {

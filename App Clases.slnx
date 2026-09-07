@@ -1,3 +1,4 @@
 <Solution>
-  <Project Path="TP1-AppGenerica/TP1-AppGenerica.csproj" />
+  <Project Path="TPWinForm_equipo-A.UI/TPWinForm_equipo-A.UI.csproj" Id="ec71f457-1bb6-4e9b-bf74-d89fe4314fbc" />
+  <Project Path="TPWinForm_equipo-A/TP1-AppGenerica.csproj" Id="051dfd58-6929-41de-8518-bdd49f0702a9" />
 </Solution>
