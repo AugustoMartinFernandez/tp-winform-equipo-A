@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TPWinForm_equipo_A.UI
+namespace Negocio
 {
-    internal class ArticuloNegocio
+    public class ArticuloNegocio
     {
         public List<Articulo> listar()
         {
