@@ -46,8 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccesoDatos.cs" />
-    <Compile Include="ArticuloNegocio.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,9 +80,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TPWinForm_equipo-A\TP1-AppGenerica.csproj">
+    <ProjectReference Include="..\Dominio\Dominio.csproj">
       <Project>{051dfd58-6929-41de-8518-bdd49f0702a9}</Project>
-      <Name>TP1-AppGenerica</Name>
+      <Name>Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Negocio\Negocio.csproj">
+      <Project>{e752e395-5b52-40bd-8f3a-e41208b50f40}</Project>
+      <Name>Negocio</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
