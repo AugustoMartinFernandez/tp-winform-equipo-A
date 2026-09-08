@@ -1,5 +1,5 @@
 <Solution>
+  <Project Path="Dominio/Dominio.csproj" Id="051dfd58-6929-41de-8518-bdd49f0702a9" />
+  <Project Path="Interfaz/Interfaz.csproj" Id="ec71f457-1bb6-4e9b-bf74-d89fe4314fbc" />
   <Project Path="Negocio/Negocio.csproj" Id="e752e395-5b52-40bd-8f3a-e41208b50f40" />
-  <Project Path="TPWinForm_equipo-A.UI/Interfaz.csproj" Id="ec71f457-1bb6-4e9b-bf74-d89fe4314fbc" />
-  <Project Path="TPWinForm_equipo-A/Dominio.csproj" Id="051dfd58-6929-41de-8518-bdd49f0702a9" />
 </Solution>
