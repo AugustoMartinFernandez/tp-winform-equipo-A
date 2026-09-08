@@ -11,6 +11,7 @@ using System.Data.SqlClient ;
 
 namespace Negocio {
     public class AccesoDatos {
+
         // Encapsulamos para que nadie desde fuera toque la conexion directamente
         private SqlConnection conexion ;
         private SqlCommand comando ;
@@ -20,23 +21,23 @@ namespace Negocio {
         // No que se pueda escribir desde afuera
         public SqlDataReader Lector {
             
-        get {
-                return lector;
-            }
+        get { return lector ; }
+       
         }
         // Constructor 
-        public AccesoDatos()
-        {
-            conexion = new SqlConnection("server=localhost; database=CATALOGO_P3_DB; user=sa; password=@Willystu10 ;");
-            comando = new SqlCommand();
+        public AccesoDatos() {
+
+            conexion = new SqlConnection("server=localhost; database=CATALOGO_P3_DB; user=sa; password=@Willystu10 ;") ;
+
+            comando = new SqlCommand() ;
         }
 
         // Seteamos las consultas
-        public void setearConsultas(string consulta)
-        {
+        public void setearConsultas(string consulta) {
             // Le paso una sentencia SQL escrita
-            comando.CommandType = System.Data.CommandType.Text;
-            comando.CommandText = consulta;
+            comando.CommandType = System.Data.CommandType.Text ;
+
+            comando.CommandText = consulta ;
         }
         // Ejecutaremos lectura
         public void ejecutarLectura()
