@@ -30,6 +30,7 @@
         {
             this.dgvArticulos = new System.Windows.Forms.DataGridView();
             this.lblArticulos = new System.Windows.Forms.Label();
+            this.btnNuevoArticulo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,11 +52,22 @@
             this.lblArticulos.TabIndex = 1;
             this.lblArticulos.Text = "Todos los Articulos";
             // 
+            // btnNuevoArticulo
+            // 
+            this.btnNuevoArticulo.Location = new System.Drawing.Point(13, 281);
+            this.btnNuevoArticulo.Name = "btnNuevoArticulo";
+            this.btnNuevoArticulo.Size = new System.Drawing.Size(101, 33);
+            this.btnNuevoArticulo.TabIndex = 2;
+            this.btnNuevoArticulo.Text = "Nuevo Articulo";
+            this.btnNuevoArticulo.UseVisualStyleBackColor = true;
+            this.btnNuevoArticulo.Click += new System.EventHandler(this.btnNuevoArticulo_Click);
+            // 
             // frmArticulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(766, 348);
+            this.Controls.Add(this.btnNuevoArticulo);
             this.Controls.Add(this.lblArticulos);
             this.Controls.Add(this.dgvArticulos);
             this.Name = "frmArticulos";
@@ -71,6 +83,7 @@
 
         private System.Windows.Forms.DataGridView dgvArticulos;
         private System.Windows.Forms.Label lblArticulos;
+        private System.Windows.Forms.Button btnNuevoArticulo;
     }
 }
 

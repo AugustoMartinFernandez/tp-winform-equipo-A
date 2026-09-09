@@ -27,7 +27,7 @@ namespace Negocio {
         // Constructor 
         public AccesoDatos() {
 
-            conexion = new SqlConnection("server=localhost; database=CATALOGO_P3_DB; user=sa; password=@Willystu10 ;") ;
+            conexion = new SqlConnection("server=localhost; database=CATALOGO_P3_DB; user=sa; password=Rifasweb170726@ ;") ;
 
             comando = new SqlCommand() ;
         }
@@ -69,6 +69,10 @@ namespace Negocio {
 
                 throw ex;
             }
+        }
+        // Agrego un parametro con su nombre y valor, para no concatenar el string directo
+        public void setearParametro(string nombre, object valor) {
+            comando.Parameters.AddWithValue(nombre, valor);
         }
 
         // Cerramos la conexion
