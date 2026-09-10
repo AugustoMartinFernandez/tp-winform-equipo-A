@@ -34,6 +34,7 @@ namespace TPWinForm_equipo_A.UI
             try
             {
                 dgvArticulos.DataSource = negocio.listar();
+                // dgvArticulos.Columns["Id"].Visible = false;
             }
             catch (Exception ex)
             {
@@ -49,7 +50,7 @@ namespace TPWinForm_equipo_A.UI
             {
                 pbxArticulo.Load(Imagen);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Placeholder
                 pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
@@ -93,6 +94,29 @@ namespace TPWinForm_equipo_A.UI
                     lblContadorImagen.Text = "0 / 0";
                 }
             }
+        }
+
+        private void btnModificarArticulo_Click(object sender, EventArgs e)
+        {
+            Articulo seleccionado;
+            frmAltaArticulo modificar;
+            
+            if (dgvArticulos.CurrentRow != null)
+            {
+                seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                // Seleccionar Articulo
+                modificar = new frmAltaArticulo(seleccionado);
+                // ShowDialog para que sea modal, no deja tocar el listado hasta que se cierre el alta
+                modificar.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Para modificar un articulo, primero debe seleccionarlo");
+
+            }
+
+            // Al volver del alta, refresco para que se vea el articulo nuevo
+            cargarListado();
         }
     }
 }
