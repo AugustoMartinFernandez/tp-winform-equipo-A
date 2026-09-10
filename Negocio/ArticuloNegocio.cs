@@ -18,7 +18,7 @@ namespace Negocio
             try
             {
                 // Seteamos la consulta: trae los articulos con marca y categoria
-                datos.setearConsultas("Select ARTICULOS.Id, Codigo, Nombre, ARTICULOS.Descripcion, MARCAS.Descripcion AS 'Marca', CATEGORIAS.Descripcion AS 'Categoria', Precio FROM ARTICULOS INNER JOIN MARCAS ON ARTICULOS.IdMarca = MARCAS.Id INNER JOIN CATEGORIAS ON ARTICULOS.IdCategoria = CATEGORIAS.Id");
+                datos.setearConsultas("Select ARTICULOS.Id, Codigo, Nombre, ARTICULOS.Descripcion, MARCAS.Descripcion AS 'Marca', CATEGORIAS.Descripcion AS 'Categoria', Precio, ARTICULOS.IdMarca, ARTICULOS.IdCategoria FROM ARTICULOS INNER JOIN MARCAS ON ARTICULOS.IdMarca = MARCAS.Id INNER JOIN CATEGORIAS ON ARTICULOS.IdCategoria = CATEGORIAS.Id");
                 datos.ejecutarLectura();
 
                 // Recorremos fila por fila con lo que trajo la consulta
@@ -31,36 +31,12 @@ namespace Negocio
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.Precio = (decimal)datos.Lector["Precio"];
+                    aux.Marca.Id = (int)datos.Lector["IdMarca"];
+                    aux.Categoria.Id = (int)datos.Lector["IdCategoria"];
 
                     // No hace falta instanciar Marca ni Categoria de nuevo, ya nacen creadas desde el constructor de Articulo
                     aux.Marca.Descripcion = (string)datos.Lector["Marca"];
                     aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
-
-                    // Buscar las imagenes
-                    AccesoDatos datosImagen = new AccesoDatos();
-                    try
-                    {
-                        datosImagen.setearConsultas("SELECT Id, IdArticulo, ImagenUrl FROM IMAGENES WHERE IdArticulo = " + aux.Id);
-                        datosImagen.ejecutarLectura();
-
-                        while (datosImagen.Lector.Read())
-                        {
-                            Imagen img = new Imagen();
-                            img.Id = (int)datosImagen.Lector["Id"];
-                            img.ImagenUrl = (string)datosImagen.Lector["ImagenUrl"];
-
-                            aux.Imagenes.Add(img);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                    finally
-                    {
-                        datosImagen.cerrarConexion();
-                    }
-                    // -------------------------------------------------------------
 
                     lista.Add(aux);
                 }
@@ -71,14 +47,48 @@ namespace Negocio
             }
             finally
             {
-                // Cierro la conexion pase lo que pase, haya salido bien o no
                 datos.cerrarConexion();
             }
+
+            // Traigo TODAS las imagenes en una sola consulta aparte, no una por articulo
+            AccesoDatos datosImagenes = new AccesoDatos();
+            List<Imagen> todasLasImagenes = new List<Imagen>();
+
+            try
+            {
+                datosImagenes.setearConsultas("SELECT Id, IdArticulo, ImagenUrl FROM IMAGENES");
+                datosImagenes.ejecutarLectura();
+
+                while (datosImagenes.Lector.Read())
+                {
+                    Imagen img = new Imagen();
+                    img.Id = (int)datosImagenes.Lector["Id"];
+                    img.IdArticulo = (int)datosImagenes.Lector["IdArticulo"];
+                    img.ImagenUrl = (string)datosImagenes.Lector["ImagenUrl"];
+                    todasLasImagenes.Add(img);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally {
+                datosImagenes.cerrarConexion();
+            }
+            // A cada articulo le asigno solo las imagenes que le corresponden sin tener que ir la bd a cada rato 
+            foreach (Articulo articulo in lista)
+            {
+                // FindAll con lambda (Unidad 5 / Filtros): me quedo solo con las que tienen el mismo IdArticulo 
+                articulo.Imagenes = todasLasImagenes.FindAll(img => img.IdArticulo == articulo.Id);
+            }
+
             // Devuelvo la lista ya armada con todos los articulos
             return lista;
         }
 
-        public void agregar(Articulo nuevo)
+
+        public void agregar(Articulo nuevoArticulo)
         {
             AccesoDatos datos = new AccesoDatos();
 
@@ -87,13 +97,13 @@ namespace Negocio
                 //Insert con parametros en vez de concatenar el texto directo
                 datos.setearConsultas("INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio, IdMarca, IdCategoria) VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria)");
 
-                datos.setearParametro("@Codigo", nuevo.Codigo);
-                datos.setearParametro("@Nombre", nuevo.Nombre);
-                datos.setearParametro("@Descripcion", nuevo.Descripcion);
-                datos.setearParametro("@Precio", nuevo.Precio);
+                datos.setearParametro("@Codigo", nuevoArticulo.Codigo);
+                datos.setearParametro("@Nombre", nuevoArticulo.Nombre);
+                datos.setearParametro("@Descripcion", nuevoArticulo.Descripcion);
+                datos.setearParametro("@Precio", nuevoArticulo.Precio);
                 // Mando el Id de la marca y la categoria, no el objeto entero
-                datos.setearParametro("@IdMarca", nuevo.Marca.Id);
-                datos.setearParametro("@IdCategoria", nuevo.Categoria.Id);
+                datos.setearParametro("@IdMarca", nuevoArticulo.Marca.Id);
+                datos.setearParametro("@IdCategoria", nuevoArticulo.Categoria.Id);
 
                 datos.ejecutarAccion();
 
@@ -107,6 +117,30 @@ namespace Negocio
                 //Cierro la conexion pase lo que pase, haya salido bien o no
                 datos.cerrarConexion(); 
             }
+        }
+        public void modificar(Articulo modificarArticulo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsultas("update ARTICULOS set Codigo = @Codigo, Nombre = @Nombre, Descripcion = @Descripcion, Precio = @Precio, IdMarca = @IdMarca, IdCategoria = @IdCategoria where Id = @Id");
+                datos.setearParametro("@Codigo", modificarArticulo.Codigo);
+                datos.setearParametro("@Nombre", modificarArticulo.Nombre);
+                datos.setearParametro("@Descripcion", modificarArticulo.Descripcion);
+                datos.setearParametro("@Precio", modificarArticulo.Precio);
+                datos.setearParametro("@IdMarca", modificarArticulo.Marca.Id);
+                datos.setearParametro("@IdCategoria", modificarArticulo.Categoria.Id);
+                datos.setearParametro("@Id", modificarArticulo.Id);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            { datos.cerrarConexion(); }
         }
 
         public List<Articulo> filtrar(string campo, string criterio, string filtro)

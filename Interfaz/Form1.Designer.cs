@@ -35,6 +35,7 @@
             this.btnAnterior = new System.Windows.Forms.Button();
             this.btnSiguiente = new System.Windows.Forms.Button();
             this.lblContadorImagen = new System.Windows.Forms.Label();
+            this.btnModificarArticulo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).BeginInit();
             this.SuspendLayout();
@@ -44,7 +45,7 @@
             this.dgvArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvArticulos.Location = new System.Drawing.Point(13, 67);
             this.dgvArticulos.Name = "dgvArticulos";
-            this.dgvArticulos.Size = new System.Drawing.Size(428, 208);
+            this.dgvArticulos.Size = new System.Drawing.Size(773, 208);
             this.dgvArticulos.TabIndex = 0;
             this.dgvArticulos.SelectionChanged += new System.EventHandler(this.dgvArticulos_SelectionChanged);
             // 
@@ -70,7 +71,7 @@
             // 
             // pbxArticulo
             // 
-            this.pbxArticulo.Location = new System.Drawing.Point(566, 67);
+            this.pbxArticulo.Location = new System.Drawing.Point(809, 67);
             this.pbxArticulo.Name = "pbxArticulo";
             this.pbxArticulo.Size = new System.Drawing.Size(239, 208);
             this.pbxArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -79,7 +80,7 @@
             // 
             // btnAnterior
             // 
-            this.btnAnterior.Location = new System.Drawing.Point(595, 290);
+            this.btnAnterior.Location = new System.Drawing.Point(838, 290);
             this.btnAnterior.Name = "btnAnterior";
             this.btnAnterior.Size = new System.Drawing.Size(75, 23);
             this.btnAnterior.TabIndex = 4;
@@ -88,7 +89,7 @@
             // 
             // btnSiguiente
             // 
-            this.btnSiguiente.Location = new System.Drawing.Point(706, 290);
+            this.btnSiguiente.Location = new System.Drawing.Point(949, 290);
             this.btnSiguiente.Name = "btnSiguiente";
             this.btnSiguiente.Size = new System.Drawing.Size(75, 23);
             this.btnSiguiente.TabIndex = 5;
@@ -99,18 +100,29 @@
             // lblContadorImagen
             // 
             this.lblContadorImagen.AutoSize = true;
-            this.lblContadorImagen.Location = new System.Drawing.Point(676, 295);
+            this.lblContadorImagen.Location = new System.Drawing.Point(919, 295);
             this.lblContadorImagen.Name = "lblContadorImagen";
             this.lblContadorImagen.Size = new System.Drawing.Size(24, 13);
             this.lblContadorImagen.TabIndex = 6;
             this.lblContadorImagen.Text = "1/1";
             this.lblContadorImagen.Click += new System.EventHandler(this.label1_Click);
             // 
+            // btnModificarArticulo
+            // 
+            this.btnModificarArticulo.Location = new System.Drawing.Point(137, 281);
+            this.btnModificarArticulo.Name = "btnModificarArticulo";
+            this.btnModificarArticulo.Size = new System.Drawing.Size(101, 33);
+            this.btnModificarArticulo.TabIndex = 7;
+            this.btnModificarArticulo.Text = "Modificar Articulo";
+            this.btnModificarArticulo.UseVisualStyleBackColor = true;
+            this.btnModificarArticulo.Click += new System.EventHandler(this.btnModificarArticulo_Click);
+            // 
             // frmArticulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(878, 348);
+            this.ClientSize = new System.Drawing.Size(1106, 348);
+            this.Controls.Add(this.btnModificarArticulo);
             this.Controls.Add(this.lblContadorImagen);
             this.Controls.Add(this.btnSiguiente);
             this.Controls.Add(this.btnAnterior);
@@ -137,6 +149,7 @@
         private System.Windows.Forms.Button btnAnterior;
         private System.Windows.Forms.Button btnSiguiente;
         private System.Windows.Forms.Label lblContadorImagen;
+        private System.Windows.Forms.Button btnModificarArticulo;
     }
 }
 
