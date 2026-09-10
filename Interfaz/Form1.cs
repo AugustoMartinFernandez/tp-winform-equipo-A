@@ -15,6 +15,8 @@ namespace TPWinForm_equipo_A.UI
 {
     public partial class frmArticulos : Form
     {
+        private int indiceImagenActual = 0;
+
         public frmArticulos()
         {
             InitializeComponent();
@@ -41,6 +43,18 @@ namespace TPWinForm_equipo_A.UI
 
         }
 
+        private void cargarImagen(string Imagen)
+        {
+            try
+            {
+                pbxArticulo.Load(Imagen);
+            }
+            catch (Exception ex)
+            {
+                // Placeholder
+                pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+            }
+        }
         private void btnNuevoArticulo_Click(object sender, EventArgs e)
         {
             // ShowDialog para que sea modal, no deja tocar el listado hasta que se cierre el alta
@@ -48,6 +62,37 @@ namespace TPWinForm_equipo_A.UI
             alta.ShowDialog();
             // Al volver del alta, refresco para que se vea el articulo nuevo
             cargarListado();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvArticulos.CurrentRow != null)
+            {
+                Articulo articuloSeleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                indiceImagenActual = 0;
+
+                if (articuloSeleccionado.Imagenes != null && articuloSeleccionado.Imagenes.Count > 0)
+                {
+                    cargarImagen(articuloSeleccionado.Imagenes[indiceImagenActual].ImagenUrl);
+
+                    lblContadorImagen.Text = "1 / " + articuloSeleccionado.Imagenes.Count.ToString();
+                }
+                else
+                {
+                    cargarImagen("");
+                    lblContadorImagen.Text = "0 / 0";
+                }
+            }
         }
     }
 }

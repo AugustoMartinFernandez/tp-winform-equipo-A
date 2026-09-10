@@ -36,6 +36,32 @@ namespace Negocio
                     aux.Marca.Descripcion = (string)datos.Lector["Marca"];
                     aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
 
+                    // Buscar las imagenes
+                    AccesoDatos datosImagen = new AccesoDatos();
+                    try
+                    {
+                        datosImagen.setearConsultas("SELECT Id, IdArticulo, ImagenUrl FROM IMAGENES WHERE IdArticulo = " + aux.Id);
+                        datosImagen.ejecutarLectura();
+
+                        while (datosImagen.Lector.Read())
+                        {
+                            Imagen img = new Imagen();
+                            img.Id = (int)datosImagen.Lector["Id"];
+                            img.ImagenUrl = (string)datosImagen.Lector["ImagenUrl"];
+
+                            aux.Imagenes.Add(img);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        datosImagen.cerrarConexion();
+                    }
+                    // -------------------------------------------------------------
+
                     lista.Add(aux);
                 }
             }

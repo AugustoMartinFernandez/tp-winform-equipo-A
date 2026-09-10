@@ -16,7 +16,7 @@ namespace TPWinForm_equipo_A.UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmArticulos());
+            Application.Run(new frmPrincipal());
         }
     }
 }
