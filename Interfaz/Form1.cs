@@ -118,5 +118,35 @@ namespace TPWinForm_equipo_A.UI
             // Al volver del alta, refresco para que se vea el articulo nuevo
             cargarListado();
         }
+
+        private void btnEliminacionFisicaArticulo_Click(object sender, EventArgs e)
+        {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            Articulo seleccionado;
+            try
+            {
+                if (dgvArticulos.CurrentRow != null)
+                {
+                    DialogResult respuesta = MessageBox.Show("De verdad queres eliminarlo?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+
+                    if (respuesta == DialogResult.Yes)
+                    {
+                        seleccionado = (Articulo)(dgvArticulos.CurrentRow.DataBoundItem);
+                        negocio.eliminar(seleccionado.Id);
+                        MessageBox.Show($"Articulo {seleccionado.Nombre}, eliminado correctamente");
+                        cargarListado();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Para eliminar un articulo, primero debe seleccionarlo");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+        }
     }
 }
