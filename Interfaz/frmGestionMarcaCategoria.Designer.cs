@@ -40,15 +40,14 @@
             // dgvElementos
             // 
             this.dgvElementos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvElementos.Location = new System.Drawing.Point(15, 33);
+            this.dgvElementos.Location = new System.Drawing.Point(10, 31);
             this.dgvElementos.Name = "dgvElementos";
             this.dgvElementos.Size = new System.Drawing.Size(481, 237);
             this.dgvElementos.TabIndex = 0;
-            this.dgvElementos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvElementos_CellContentClick);
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(18, 227);
+            this.btnAgregar.Location = new System.Drawing.Point(270, 93);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(63, 23);
             this.btnAgregar.TabIndex = 2;
@@ -58,7 +57,7 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(90, 227);
+            this.btnModificar.Location = new System.Drawing.Point(270, 122);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(63, 23);
             this.btnModificar.TabIndex = 3;
@@ -68,7 +67,7 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(163, 227);
+            this.btnEliminar.Location = new System.Drawing.Point(270, 151);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(63, 23);
             this.btnEliminar.TabIndex = 4;
@@ -78,22 +77,20 @@
             // 
             // txtDescripcion
             // 
-            this.txtDescripcion.Location = new System.Drawing.Point(18, 204);
+            this.txtDescripcion.Location = new System.Drawing.Point(270, 67);
             this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(208, 20);
+            this.txtDescripcion.Size = new System.Drawing.Size(214, 20);
             this.txtDescripcion.TabIndex = 1;
-            this.txtDescripcion.TextChanged += new System.EventHandler(this.txtDescripcion_TextChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label1.Location = new System.Drawing.Point(18, 187);
+            this.label1.Location = new System.Drawing.Point(267, 40);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 13);
+            this.label1.Size = new System.Drawing.Size(217, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Nuevo Nombre: ";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.label1.Text = "Nuevo nombre o seleccione y modifique uno";
             // 
             // frmGestionMarcaCategoria
             // 

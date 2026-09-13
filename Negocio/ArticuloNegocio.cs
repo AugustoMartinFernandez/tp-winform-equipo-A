@@ -104,6 +104,26 @@ namespace Negocio
             finally {
                 datos.cerrarConexion(); 
             }
+
+            // GUARDAR LA IMAGEN EN LA BASE DE DATOS
+            if (nuevoArticulo.Imagenes != null && nuevoArticulo.Imagenes.Count > 0 && !string.IsNullOrWhiteSpace(nuevoArticulo.Imagenes[0].ImagenUrl))
+            {
+                AccesoDatos datosImg = new AccesoDatos();
+                try
+                {
+                    datosImg.setearConsultas("INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES ((SELECT MAX(Id) FROM ARTICULOS), @ImagenUrl)");
+                    datosImg.setearParametro("@ImagenUrl", nuevoArticulo.Imagenes[0].ImagenUrl);
+                    datosImg.ejecutarAccion();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    datosImg.cerrarConexion();
+                }
+            }
         }
 
         public void modificar(Articulo modificarArticulo)
@@ -130,6 +150,32 @@ namespace Negocio
             { 
                 datos.cerrarConexion(); 
             }
+
+            // ACTUALIZAR O INSERTAR LA IMAGEN AL MODIFICAR
+            if (modificarArticulo.Imagenes != null && modificarArticulo.Imagenes.Count > 0 && !string.IsNullOrWhiteSpace(modificarArticulo.Imagenes[0].ImagenUrl))
+            {
+                AccesoDatos datosImg = new AccesoDatos();
+                try
+                {
+                    string query = "IF EXISTS (SELECT 1 FROM IMAGENES WHERE IdArticulo = @IdArticulo) " +
+                                   "UPDATE IMAGENES SET ImagenUrl = @ImagenUrl WHERE IdArticulo = @IdArticulo; " +
+                                   "ELSE " +
+                                   "INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@IdArticulo, @ImagenUrl);";
+
+                    datosImg.setearConsultas(query);
+                    datosImg.setearParametro("@ImagenUrl", modificarArticulo.Imagenes[0].ImagenUrl);
+                    datosImg.setearParametro("@IdArticulo", modificarArticulo.Id);
+                    datosImg.ejecutarAccion();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    datosImg.cerrarConexion();
+                }
+            }
         }
 
         public void eliminar(int id)
@@ -137,6 +183,13 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
+                // Opcional: Si deseas eliminar primero las imágenes asociadas para evitar conflictos de FK:
+                // AccesoDatos datosImg = new AccesoDatos();
+                // datosImg.setearConsultas("DELETE FROM IMAGENES WHERE IdArticulo = @id");
+                // datosImg.setearParametro("@id", id);
+                // datosImg.ejecutarAccion();
+                // datosImg.cerrarConexion();
+
                 datos.setearConsultas("delete from ARTICULOS where id = @id");
                 datos.setearParametro("@id", id);
                 datos.ejecutarAccion();

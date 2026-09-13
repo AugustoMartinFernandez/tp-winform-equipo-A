@@ -1,7 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-using Dominio;
+﻿using Dominio;
 using Negocio;
+using System;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace TPWinForm_equipo_A.UI
 {
@@ -28,6 +29,10 @@ namespace TPWinForm_equipo_A.UI
             {
                 Text = "Gestión de Categorías";
             }
+
+            // evento
+
+            dgvElementos.SelectionChanged += new EventHandler(dgvElementos_SelectionChanged);
 
             // Cargamos la grilla apenas se crea la ventana
             cargarGrilla();
@@ -59,40 +64,60 @@ namespace TPWinForm_equipo_A.UI
             }
         }
 
-        private void btnAgregar_Click(object sender, EventArgs e)
+    private void btnAgregar_Click(object sender, EventArgs e)
+{
+    try
+    {
+        string textoNuevo = txtDescripcion.Text.Trim();
+
+        if (string.IsNullOrWhiteSpace(textoNuevo))
         {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
-                {
-                    MessageBox.Show("Por favor, ingresa el Nombre.");
-                    return;
-                }
-
-                if (tipoEntidad == "MARCA")
-                {
-                    MarcaNegocio negocio = new MarcaNegocio();
-                    Marca nueva = new Marca();
-                    nueva.Descripcion = txtDescripcion.Text;
-                    negocio.agregar(nueva);
-                }
-                else
-                {
-                    CategoriaNegocio negocio = new CategoriaNegocio();
-                    Categoria nueva = new Categoria();
-                    nueva.Descripcion = txtDescripcion.Text;
-                    negocio.agregar(nueva);
-                }
-
-                MessageBox.Show("Agregado exitosamente.");
-                txtDescripcion.Clear();
-                cargarGrilla(); // Recargamos la grilla para ver el cambio
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al agregar: " + ex.Message);
-            }
+            MessageBox.Show("Por favor, ingresa el Nombre.");
+            return;
         }
+
+        if (tipoEntidad == "MARCA")
+        {
+            MarcaNegocio negocio = new MarcaNegocio();
+            var lista = negocio.listar();
+
+            // Validar si ya existe la marca (sin importar mayúsculas/minúsculas)
+            if (lista.Any(x => x.Descripcion.Equals(textoNuevo, StringComparison.OrdinalIgnoreCase)))
+            {
+                MessageBox.Show("Ya existe una marca con ese nombre.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Marca nueva = new Marca();
+            nueva.Descripcion = textoNuevo;
+            negocio.agregar(nueva);
+        }
+        else
+        {
+            CategoriaNegocio negocio = new CategoriaNegocio();
+            var lista = negocio.listar();
+
+            // Validar si ya existe la categoría
+            if (lista.Any(x => x.Descripcion.Equals(textoNuevo, StringComparison.OrdinalIgnoreCase)))
+            {
+                MessageBox.Show("Ya existe una categoría con ese nombre.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Categoria nueva = new Categoria();
+            nueva.Descripcion = textoNuevo;
+            negocio.agregar(nueva);
+        }
+
+        MessageBox.Show("Agregado exitosamente.");
+        txtDescripcion.Clear();
+        cargarGrilla(); // Recargamos la grilla para ver el cambio
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("Error al agregar: " + ex.Message);
+    }
+}
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
@@ -131,62 +156,83 @@ namespace TPWinForm_equipo_A.UI
         }
 
        private void btnModificar_Click(object sender, EventArgs e)
+{
+    try
+    {
+        if (dgvElementos.CurrentRow != null)
         {
-            try
+            string textoModificado = txtDescripcion.Text.Trim();
+            if (string.IsNullOrWhiteSpace(textoModificado))
             {
-                if (dgvElementos.CurrentRow != null)
+                MessageBox.Show("Por favor, ingresa una descripción para modificar.");
+                return;
+            }
+
+            if (tipoEntidad == "MARCA")
+            {
+                Marca seleccionado = (Marca)dgvElementos.CurrentRow.DataBoundItem;
+                MarcaNegocio negocio = new MarcaNegocio();
+                
+                // Validar duplicados excluyendo al elemento que estamos editando
+                var lista = negocio.listar();
+                if (lista.Any(x => x.Id != seleccionado.Id && x.Descripcion.Equals(textoModificado, StringComparison.OrdinalIgnoreCase)))
                 {
-                    if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
-                    {
-                        MessageBox.Show("Por favor, ingresa una descripción para modificar.");
-                        return;
-                    }
+                    MessageBox.Show("Ya existe otra marca con ese nombre.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                    if (tipoEntidad == "MARCA")
-                    {
-                        Marca seleccionado = (Marca)dgvElementos.CurrentRow.DataBoundItem;
-                        seleccionado.Descripcion = txtDescripcion.Text;
+                seleccionado.Descripcion = textoModificado;
+                negocio.modificar(seleccionado);
+            }
+            else
+            {
+                Categoria seleccionado = (Categoria)dgvElementos.CurrentRow.DataBoundItem;
+                CategoriaNegocio negocio = new CategoriaNegocio();
 
-                        MarcaNegocio negocio = new MarcaNegocio();
-                        negocio.modificar(seleccionado);
-                    }
-                    else
-                    {
-                        Categoria seleccionado = (Categoria)dgvElementos.CurrentRow.DataBoundItem;
-                        seleccionado.Descripcion = txtDescripcion.Text;
+                var lista = negocio.listar();
+                if (lista.Any(x => x.Id != seleccionado.Id && x.Descripcion.Equals(textoModificado, StringComparison.OrdinalIgnoreCase)))
+                {
+                    MessageBox.Show("Ya existe otra categoría con ese nombre.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                        CategoriaNegocio negocio = new CategoriaNegocio();
-                        negocio.modificar(seleccionado);
-                    }
+                seleccionado.Descripcion = textoModificado;
+                negocio.modificar(seleccionado);
+            }
 
-                    MessageBox.Show("Modificado exitosamente.");
-                    txtDescripcion.Clear();
-                    cargarGrilla();
+            MessageBox.Show("Modificado exitosamente.");
+            txtDescripcion.Clear();
+            cargarGrilla();
+        }
+        else
+        {
+            MessageBox.Show("Por favor, selecciona un elemento de la lista para modificar.");
+        }
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("Error al modificar: " + ex.Message);
+    }
+}
+        private void dgvElementos_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvElementos.CurrentRow != null)
+            {
+                if (tipoEntidad == "MARCA")
+                {
+                    Marca seleccionado = (Marca)dgvElementos.CurrentRow.DataBoundItem;
+                    if (seleccionado != null)
+                        txtDescripcion.Text = seleccionado.Descripcion;
                 }
                 else
                 {
-                    MessageBox.Show("Por favor, selecciona un elemento de la lista para modificar.");
+                    Categoria seleccionado = (Categoria)dgvElementos.CurrentRow.DataBoundItem;
+                    if (seleccionado != null)
+                        txtDescripcion.Text = seleccionado.Descripcion;
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al modificar: " + ex.Message);
-            }
         }
 
-        private void txtDescripcion_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgvElementos_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+       
     }
 }
