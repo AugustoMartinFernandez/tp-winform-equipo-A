@@ -14,14 +14,11 @@ namespace Negocio
             List<Articulo> lista = new List<Articulo>();
             AccesoDatos datos = new AccesoDatos();
 
-            // siempre cuando toquemos una bd debemos protegerla aca, por si se corta la conexion o falla algo
             try
             {
-                // Seteamos la consulta: trae los articulos con marca y categoria
                 datos.setearConsultas("Select ARTICULOS.Id, Codigo, Nombre, ARTICULOS.Descripcion, MARCAS.Descripcion AS 'Marca', CATEGORIAS.Descripcion AS 'Categoria', Precio, ARTICULOS.IdMarca, ARTICULOS.IdCategoria FROM ARTICULOS INNER JOIN MARCAS ON ARTICULOS.IdMarca = MARCAS.Id INNER JOIN CATEGORIAS ON ARTICULOS.IdCategoria = CATEGORIAS.Id");
                 datos.ejecutarLectura();
 
-                // Recorremos fila por fila con lo que trajo la consulta
                 while (datos.Lector.Read())
                 {
                     Articulo aux = new Articulo();
@@ -34,7 +31,6 @@ namespace Negocio
                     aux.Marca.Id = (int)datos.Lector["IdMarca"];
                     aux.Categoria.Id = (int)datos.Lector["IdCategoria"];
 
-                    // No hace falta instanciar Marca ni Categoria de nuevo, ya nacen creadas desde el constructor de Articulo
                     aux.Marca.Descripcion = (string)datos.Lector["Marca"];
                     aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
 
@@ -50,7 +46,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
 
-            // Traigo TODAS las imagenes en una sola consulta aparte, no una por articulo
+            // Traigo TODAS las imagenes en una sola consulta aparte
             AccesoDatos datosImagenes = new AccesoDatos();
             List<Imagen> todasLasImagenes = new List<Imagen>();
 
@@ -70,23 +66,19 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally {
                 datosImagenes.cerrarConexion();
             }
-            // A cada articulo le asigno solo las imagenes que le corresponden sin tener que ir la bd a cada rato 
+
             foreach (Articulo articulo in lista)
             {
-                // FindAll con lambda (Unidad 5 / Filtros): me quedo solo con las que tienen el mismo IdArticulo 
                 articulo.Imagenes = todasLasImagenes.FindAll(img => img.IdArticulo == articulo.Id);
             }
 
-            // Devuelvo la lista ya armada con todos los articulos
             return lista;
         }
-
 
         public void agregar(Articulo nuevoArticulo)
         {
@@ -94,30 +86,26 @@ namespace Negocio
 
             try
             {
-                //Insert con parametros en vez de concatenar el texto directo
                 datos.setearConsultas("INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio, IdMarca, IdCategoria) VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria)");
 
                 datos.setearParametro("@Codigo", nuevoArticulo.Codigo);
                 datos.setearParametro("@Nombre", nuevoArticulo.Nombre);
                 datos.setearParametro("@Descripcion", nuevoArticulo.Descripcion);
                 datos.setearParametro("@Precio", nuevoArticulo.Precio);
-                // Mando el Id de la marca y la categoria, no el objeto entero
                 datos.setearParametro("@IdMarca", nuevoArticulo.Marca.Id);
                 datos.setearParametro("@IdCategoria", nuevoArticulo.Categoria.Id);
 
                 datos.ejecutarAccion();
-
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally {
-                //Cierro la conexion pase lo que pase, haya salido bien o no
                 datos.cerrarConexion(); 
             }
         }
+
         public void modificar(Articulo modificarArticulo)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -136,11 +124,12 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
-            { datos.cerrarConexion(); }
+            { 
+                datos.cerrarConexion(); 
+            }
         }
 
         public void eliminar(int id)
@@ -149,12 +138,11 @@ namespace Negocio
             try
             {
                 datos.setearConsultas("delete from ARTICULOS where id = @id");
-                datos.setearParametro("@id",id);
+                datos.setearParametro("@id", id);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally

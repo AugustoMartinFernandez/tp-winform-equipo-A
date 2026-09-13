@@ -7,9 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using Dominio; // <--- Agrego para poder usar la clase Articulo
-using Negocio; // <--- Agrego para poder usar la clase ArticuloNegocio
+using Dominio; 
+using Negocio; 
 
 namespace TPWinForm_equipo_A.UI
 {
@@ -26,7 +25,7 @@ namespace TPWinForm_equipo_A.UI
         {
             cargarListado();
         }
-        // Separado en un metodo aparte para poder llamarlo de nuevo despues de cerrar el alta
+
         private void cargarListado()
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
@@ -34,14 +33,11 @@ namespace TPWinForm_equipo_A.UI
             try
             {
                 dgvArticulos.DataSource = negocio.listar();
-                // dgvArticulos.Columns["Id"].Visible = false;
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.ToString());
             }
-
         }
 
         private void cargarImagen(string Imagen)
@@ -52,16 +48,14 @@ namespace TPWinForm_equipo_A.UI
             }
             catch (Exception)
             {
-                // Placeholder
                 pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
             }
         }
+
         private void btnNuevoArticulo_Click(object sender, EventArgs e)
         {
-            // ShowDialog para que sea modal, no deja tocar el listado hasta que se cierre el alta
             frmAltaArticulo alta = new frmAltaArticulo();
             alta.ShowDialog();
-            // Al volver del alta, refresco para que se vea el articulo nuevo
             cargarListado();
         }
 
@@ -85,7 +79,6 @@ namespace TPWinForm_equipo_A.UI
                 if (articuloSeleccionado.Imagenes != null && articuloSeleccionado.Imagenes.Count > 0)
                 {
                     cargarImagen(articuloSeleccionado.Imagenes[indiceImagenActual].ImagenUrl);
-
                     lblContadorImagen.Text = "1 / " + articuloSeleccionado.Imagenes.Count.ToString();
                 }
                 else
@@ -104,18 +97,14 @@ namespace TPWinForm_equipo_A.UI
             if (dgvArticulos.CurrentRow != null)
             {
                 seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-                // Seleccionar Articulo
                 modificar = new frmAltaArticulo(seleccionado);
-                // ShowDialog para que sea modal, no deja tocar el listado hasta que se cierre el alta
                 modificar.ShowDialog();
             }
             else
             {
                 MessageBox.Show("Para modificar un articulo, primero debe seleccionarlo");
-
             }
 
-            // Al volver del alta, refresco para que se vea el articulo nuevo
             cargarListado();
         }
 
@@ -144,7 +133,6 @@ namespace TPWinForm_equipo_A.UI
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.ToString());
             }
         }

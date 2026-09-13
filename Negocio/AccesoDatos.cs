@@ -4,42 +4,40 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
-
 // Para poder usar el servicio a bd
+using System.Data.SqlClient; 
 
-using System.Data.SqlClient ;
-
-namespace Negocio {
-    public class AccesoDatos {
-
+namespace Negocio 
+{
+    public class AccesoDatos 
+    {
         // Encapsulamos para que nadie desde fuera toque la conexion directamente
-        private SqlConnection conexion ;
-        private SqlCommand comando ;
-        private SqlDataReader lector ;
+        private SqlConnection conexion;
+        private SqlCommand comando;
+        private SqlDataReader lector;
 
         // Necesitamos leer el lector desde fuera
         // No que se pueda escribir desde afuera
-        public SqlDataReader Lector {
-            
-        get { return lector ; }
-       
+        public SqlDataReader Lector 
+        {
+            get { return lector; }
         }
+
         // Constructor 
-        public AccesoDatos() {
-
-            // Dentro de la clase AccesoDatos.cs
+        public AccesoDatos() 
+        {
             conexion = new SqlConnection("server=localhost; database=CATALOGO_P3_DB; user=sa; password=@Willystu10;");
-
-            comando = new SqlCommand() ;
+            comando = new SqlCommand();
         }
 
         // Seteamos las consultas
-        public void setearConsultas(string consulta) {
+        public void setearConsultas(string consulta) 
+        {
             // Le paso una sentencia SQL escrita
-            comando.CommandType = System.Data.CommandType.Text ;
-
-            comando.CommandText = consulta ;
+            comando.CommandType = System.Data.CommandType.Text;
+            comando.CommandText = consulta;
         }
+
         // Ejecutaremos lectura
         public void ejecutarLectura()
         {
@@ -51,11 +49,11 @@ namespace Negocio {
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
-        // Ejecutaremos acciones para NSERT/UPDATE/DELETE
+
+        // Ejecutaremos acciones para INSERT/UPDATE/DELETE
         public void ejecutarAccion()
         {
             comando.Connection = conexion;
@@ -67,12 +65,13 @@ namespace Negocio {
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
+
         // Agrego un parametro con su nombre y valor, para no concatenar el string directo
-        public void setearParametro(string nombre, object valor) {
+        public void setearParametro(string nombre, object valor) 
+        {
             comando.Parameters.AddWithValue(nombre, valor);
         }
 
@@ -85,6 +84,5 @@ namespace Negocio {
             }
             conexion.Close();
         }
-
     }
 }
