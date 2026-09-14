@@ -51,9 +51,13 @@ namespace TPWinForm_equipo_A.UI
                     txtPrecio.Text = articulo.Precio.ToString();
                     cmbMarca.SelectedValue = articulo.Marca.Id;
                     cmbCategoria.SelectedValue = articulo.Categoria.Id;
-                    // cuando Pablo tenga listo el guardado de imagenes, completare esto
-                    // Como mostrar/editar las imagenes existentes del articulo al abrir modificar
-                    // Que metodo de negocio llamar (agregar/actualizar imagen) desde btnGuardar_Click
+
+                    // Cargamos la imagen existente al abrir la ventana de modificación
+                    if (articulo.Imagenes != null && articulo.Imagenes.Count > 0)
+                    {
+                        txtImagenUrl.Text = articulo.Imagenes[0].ImagenUrl;
+                        cargarImagen(txtImagenUrl.Text);
+                    }
                 }
             }
             catch (Exception ex)
@@ -97,6 +101,24 @@ namespace TPWinForm_equipo_A.UI
                 // Del combo saco el objeto completo seleccionado, no el texto
                 articulo.Marca = (Marca)cmbMarca.SelectedItem;
                 articulo.Categoria = (Categoria)cmbCategoria.SelectedItem;
+
+                // Capturamos la URL del TextBox y la guardamos en la lista de imágenes del articulo
+                if (!string.IsNullOrWhiteSpace(txtImagenUrl.Text))
+                {
+                    if (articulo.Imagenes == null)
+                        articulo.Imagenes = new List<Imagen>();
+
+                    if (articulo.Imagenes.Count == 0)
+                    {
+                        Imagen nuevaImg = new Imagen();
+                        nuevaImg.ImagenUrl = txtImagenUrl.Text;
+                        articulo.Imagenes.Add(nuevaImg);
+                    }
+                    else
+                    {
+                        articulo.Imagenes[0].ImagenUrl = txtImagenUrl.Text;
+                    }
+                }
 
                 if(articulo.Id != 0)
                 {
