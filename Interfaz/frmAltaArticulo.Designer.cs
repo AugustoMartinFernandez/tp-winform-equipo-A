@@ -45,6 +45,7 @@
             this.lblCategoria = new System.Windows.Forms.Label();
             this.lblImagenUrl = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
+            this.btnAgregarImagen = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImagen)).BeginInit();
             this.SuspendLayout();
             // 
@@ -102,7 +103,7 @@
             // 
             // pbxImagen
             // 
-            this.pbxImagen.Location = new System.Drawing.Point(232, 66);
+            this.pbxImagen.Location = new System.Drawing.Point(267, 66);
             this.pbxImagen.Name = "pbxImagen";
             this.pbxImagen.Size = new System.Drawing.Size(176, 268);
             this.pbxImagen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -191,11 +192,22 @@
             this.lblNombre.TabIndex = 17;
             this.lblNombre.Text = "Nombre:";
             // 
+            // btnAgregarImagen
+            // 
+            this.btnAgregarImagen.Location = new System.Drawing.Point(223, 314);
+            this.btnAgregarImagen.Name = "btnAgregarImagen";
+            this.btnAgregarImagen.Size = new System.Drawing.Size(38, 23);
+            this.btnAgregarImagen.TabIndex = 18;
+            this.btnAgregarImagen.Text = "Img";
+            this.btnAgregarImagen.UseVisualStyleBackColor = true;
+            this.btnAgregarImagen.Click += new System.EventHandler(this.btnAgregarImagen_Click);
+            // 
             // frmAltaArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(460, 450);
+            this.Controls.Add(this.btnAgregarImagen);
             this.Controls.Add(this.lblNombre);
             this.Controls.Add(this.lblImagenUrl);
             this.Controls.Add(this.lblCategoria);
@@ -245,5 +257,6 @@
         private System.Windows.Forms.Label lblCategoria;
         private System.Windows.Forms.Label lblImagenUrl;
         private System.Windows.Forms.Label lblNombre;
+        private System.Windows.Forms.Button btnAgregarImagen;
     }
 }

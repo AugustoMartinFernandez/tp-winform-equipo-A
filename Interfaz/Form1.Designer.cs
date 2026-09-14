@@ -37,6 +37,8 @@
             this.lblContadorImagen = new System.Windows.Forms.Label();
             this.btnModificarArticulo = new System.Windows.Forms.Button();
             this.btnEliminacionFisicaArticulo = new System.Windows.Forms.Button();
+            this.lblFiltro = new System.Windows.Forms.Label();
+            this.txtFiltro = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).BeginInit();
             this.SuspendLayout();
@@ -44,7 +46,7 @@
             // dgvArticulos
             // 
             this.dgvArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvArticulos.Location = new System.Drawing.Point(13, 67);
+            this.dgvArticulos.Location = new System.Drawing.Point(17, 98);
             this.dgvArticulos.Name = "dgvArticulos";
             this.dgvArticulos.Size = new System.Drawing.Size(773, 415);
             this.dgvArticulos.TabIndex = 0;
@@ -62,7 +64,7 @@
             // 
             // btnNuevoArticulo
             // 
-            this.btnNuevoArticulo.Location = new System.Drawing.Point(11, 499);
+            this.btnNuevoArticulo.Location = new System.Drawing.Point(15, 530);
             this.btnNuevoArticulo.Name = "btnNuevoArticulo";
             this.btnNuevoArticulo.Size = new System.Drawing.Size(101, 33);
             this.btnNuevoArticulo.TabIndex = 2;
@@ -72,7 +74,7 @@
             // 
             // pbxArticulo
             // 
-            this.pbxArticulo.Location = new System.Drawing.Point(809, 67);
+            this.pbxArticulo.Location = new System.Drawing.Point(813, 98);
             this.pbxArticulo.Name = "pbxArticulo";
             this.pbxArticulo.Size = new System.Drawing.Size(269, 286);
             this.pbxArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -81,7 +83,7 @@
             // 
             // btnAnterior
             // 
-            this.btnAnterior.Location = new System.Drawing.Point(853, 370);
+            this.btnAnterior.Location = new System.Drawing.Point(857, 401);
             this.btnAnterior.Name = "btnAnterior";
             this.btnAnterior.Size = new System.Drawing.Size(75, 23);
             this.btnAnterior.TabIndex = 4;
@@ -90,7 +92,7 @@
             // 
             // btnSiguiente
             // 
-            this.btnSiguiente.Location = new System.Drawing.Point(964, 370);
+            this.btnSiguiente.Location = new System.Drawing.Point(968, 401);
             this.btnSiguiente.Name = "btnSiguiente";
             this.btnSiguiente.Size = new System.Drawing.Size(75, 23);
             this.btnSiguiente.TabIndex = 5;
@@ -101,7 +103,7 @@
             // lblContadorImagen
             // 
             this.lblContadorImagen.AutoSize = true;
-            this.lblContadorImagen.Location = new System.Drawing.Point(934, 375);
+            this.lblContadorImagen.Location = new System.Drawing.Point(938, 406);
             this.lblContadorImagen.Name = "lblContadorImagen";
             this.lblContadorImagen.Size = new System.Drawing.Size(24, 13);
             this.lblContadorImagen.TabIndex = 6;
@@ -110,7 +112,7 @@
             // 
             // btnModificarArticulo
             // 
-            this.btnModificarArticulo.Location = new System.Drawing.Point(132, 499);
+            this.btnModificarArticulo.Location = new System.Drawing.Point(136, 530);
             this.btnModificarArticulo.Name = "btnModificarArticulo";
             this.btnModificarArticulo.Size = new System.Drawing.Size(101, 33);
             this.btnModificarArticulo.TabIndex = 7;
@@ -120,7 +122,7 @@
             // 
             // btnEliminacionFisicaArticulo
             // 
-            this.btnEliminacionFisicaArticulo.Location = new System.Drawing.Point(252, 499);
+            this.btnEliminacionFisicaArticulo.Location = new System.Drawing.Point(256, 530);
             this.btnEliminacionFisicaArticulo.Name = "btnEliminacionFisicaArticulo";
             this.btnEliminacionFisicaArticulo.Size = new System.Drawing.Size(101, 33);
             this.btnEliminacionFisicaArticulo.TabIndex = 8;
@@ -128,11 +130,31 @@
             this.btnEliminacionFisicaArticulo.UseVisualStyleBackColor = true;
             this.btnEliminacionFisicaArticulo.Click += new System.EventHandler(this.btnEliminacionFisicaArticulo_Click);
             // 
+            // lblFiltro
+            // 
+            this.lblFiltro.AutoSize = true;
+            this.lblFiltro.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFiltro.Location = new System.Drawing.Point(14, 71);
+            this.lblFiltro.Name = "lblFiltro";
+            this.lblFiltro.Size = new System.Drawing.Size(39, 16);
+            this.lblFiltro.TabIndex = 9;
+            this.lblFiltro.Text = "Filtro:";
+            // 
+            // txtFiltro
+            // 
+            this.txtFiltro.Location = new System.Drawing.Point(59, 71);
+            this.txtFiltro.Name = "txtFiltro";
+            this.txtFiltro.Size = new System.Drawing.Size(113, 20);
+            this.txtFiltro.TabIndex = 10;
+            this.txtFiltro.TextChanged += new System.EventHandler(this.txtFiltro_TextChanged);
+            // 
             // frmArticulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1106, 544);
+            this.ClientSize = new System.Drawing.Size(1106, 578);
+            this.Controls.Add(this.txtFiltro);
+            this.Controls.Add(this.lblFiltro);
             this.Controls.Add(this.btnEliminacionFisicaArticulo);
             this.Controls.Add(this.btnModificarArticulo);
             this.Controls.Add(this.lblContadorImagen);
@@ -163,5 +185,7 @@
         private System.Windows.Forms.Label lblContadorImagen;
         private System.Windows.Forms.Button btnModificarArticulo;
         private System.Windows.Forms.Button btnEliminacionFisicaArticulo;
+        private System.Windows.Forms.Label lblFiltro;
+        private System.Windows.Forms.TextBox txtFiltro;
     }
 }

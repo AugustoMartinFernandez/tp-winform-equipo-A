@@ -15,6 +15,7 @@ namespace TPWinForm_equipo_A.UI
     public partial class frmArticulos : Form
     {
         private int indiceImagenActual = 0;
+        private List<Articulo> listaCompleta;
 
         public frmArticulos()
         {
@@ -29,15 +30,22 @@ namespace TPWinForm_equipo_A.UI
         private void cargarListado()
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
+            //ocultarColumnas();
 
             try
             {
-                dgvArticulos.DataSource = negocio.listar();
+                listaCompleta = negocio.listar();
+                dgvArticulos.DataSource = listaCompleta;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void ocultarColumnas()
+        {
+            dgvArticulos.Columns["Id"].Visible = false;
         }
 
         private void cargarImagen(string Imagen)
@@ -122,7 +130,7 @@ namespace TPWinForm_equipo_A.UI
                     {
                         seleccionado = (Articulo)(dgvArticulos.CurrentRow.DataBoundItem);
                         negocio.eliminar(seleccionado.Id);
-                        MessageBox.Show($"Articulo {seleccionado.Nombre}, eliminado correctamente");
+                        MessageBox.Show($"{seleccionado.Nombre}, eliminado correctamente");
                         cargarListado();
                     }
                 }
@@ -135,6 +143,22 @@ namespace TPWinForm_equipo_A.UI
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void txtFiltro_TextChanged(object sender, EventArgs e)
+        {
+            List<Articulo> listaFiltrada;
+            string filtro = txtFiltro.Text;
+            if (filtro.Length >= 3)
+            {
+                listaFiltrada = listaCompleta.FindAll(art => art.Nombre.ToLower().Contains(filtro.ToLower()) || art.Descripcion.ToLower().Contains(filtro.ToLower()) || art.Marca.Descripcion.ToLower().Contains(filtro.ToLower()) || art.Categoria.Descripcion.ToLower().Contains(filtro.ToLower()) || art.Codigo.ToLower().Contains(filtro.ToLower()));
+            }
+            else
+            {
+                listaFiltrada = listaCompleta;
+            }
+            dgvArticulos.DataSource = null;
+            dgvArticulos.DataSource = listaFiltrada;
         }
     }
 }

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Configuration;
 using Negocio;
 using Dominio;
 
@@ -16,6 +18,7 @@ namespace TPWinForm_equipo_A.UI
     {
         private Articulo articulo = null;
         // Cuando toquemos modificar Articulo dejara de estar null, pasara a estar cargado con un Articulo       
+        private OpenFileDialog archivo = null;
         public frmAltaArticulo()
         {
             InitializeComponent();
@@ -130,6 +133,12 @@ namespace TPWinForm_equipo_A.UI
                     negocio.agregar(articulo);
                     MessageBox.Show("Articulo guardado correctamente.");
                 }
+                // Guardo imagen si la levanto localmente
+                if (archivo != null && !txtImagenUrl.Text.ToUpper().Contains("HTTP"))
+                {
+                    File.Copy(archivo.FileName, ConfigurationManager.AppSettings["articulos-imagenes"] + "\\" + archivo.SafeFileName);
+                }
+
                 this.Close();
             }
             catch (Exception ex)
@@ -138,6 +147,17 @@ namespace TPWinForm_equipo_A.UI
                 MessageBox.Show(ex.ToString());
             }
 
+        }
+
+        private void btnAgregarImagen_Click(object sender, EventArgs e)
+        {
+            archivo = new OpenFileDialog();
+            archivo.Filter = "jpg|*.jpg;|png|*.png;|webp|*.webp";
+            if (archivo.ShowDialog() == DialogResult.OK)
+            {
+                txtImagenUrl.Text = archivo.FileName;
+                cargarImagen(archivo.FileName);
+            }
         }
     }
 }
