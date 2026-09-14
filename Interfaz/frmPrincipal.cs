@@ -24,20 +24,59 @@ namespace TPWinForm_equipo_A.UI
 
         private void catalogoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Verificacion de ventana abierta.
             foreach (var form in Application.OpenForms)
             {
                 if (form is frmArticulos)
                 {
-                    ((Form)form).BringToFront(); // Si esta abierta, la traemos al frente.
+                    ((Form)form).BringToFront();
                     return;
                 }
             }
-            // Caso contrario la creamos y la abrimos.
             frmArticulos ventana = new frmArticulos();
             ventana.MdiParent = this;
             ventana.Show();
+        }
 
+        private void marcasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Verificamos si ya está abierta la ventana de Marcas
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form is frmGestionMarcaCategoria)
+                {
+                    if (form.Text.Contains("Marcas"))
+                    {
+                        form.BringToFront();
+                        return;
+                    }
+                }
+            }
+
+            // Si no está abierta, la creamos enviando "MARCA"
+            frmGestionMarcaCategoria ventana = new frmGestionMarcaCategoria("MARCA");
+            ventana.MdiParent = this;
+            ventana.Show();
+        }
+
+        private void categoriasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Verificamos si ya está abierta la ventana de Categorías
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form is frmGestionMarcaCategoria)
+                {
+                    if (form.Text.Contains("Categorías"))
+                    {
+                        form.BringToFront();
+                        return;
+                    }
+                }
+            }
+
+            // Si no está abierta, la creamos enviando "CATEGORIA"
+            frmGestionMarcaCategoria ventana = new frmGestionMarcaCategoria("CATEGORIA");
+            ventana.MdiParent = this;
+            ventana.Show();
         }
     }
 }
