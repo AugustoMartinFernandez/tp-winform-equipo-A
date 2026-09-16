@@ -22,10 +22,11 @@ namespace Negocio
         {
             get { return lector; }
         }
+        public AccesoDatos()
+        {
+            conexion = new SqlConnection("server=localhost\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;");
 
-            conexion = new SqlConnection("server=localhost\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;") ;
-
-            comando = new SqlCommand() ;
+            comando = new SqlCommand(); 
         }
 
         // Seteamos las consultas
@@ -68,12 +69,6 @@ namespace Negocio
         }
         // Agrego un parametro con su nombre y valor, para no concatenar el string directo
         public void setearParametro(string nombre, object valor) {
-            comando.Parameters.AddWithValue(nombre, valor);
-        }
-
-        // Agrego un parametro con su nombre y valor, para no concatenar el string directo
-        public void setearParametro(string nombre, object valor) 
-        {
             comando.Parameters.AddWithValue(nombre, valor);
         }
 
