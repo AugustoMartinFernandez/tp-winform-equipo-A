@@ -67,32 +67,38 @@ namespace TPWinForm_equipo_A.UI
             cargarListado();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvArticulos.CurrentRow != null)
             {
-                Articulo articuloSeleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-                indiceImagenActual = 0;
+                indiceImagenActual = 0; // Se vuelve a la primer imagen al cambiar de Articulo.
+                actualizarVisorImagen();
+            }
+        }
 
-                if (articuloSeleccionado.Imagenes != null && articuloSeleccionado.Imagenes.Count > 0)
+        private void actualizarVisorImagen()
+        {
+            if (dgvArticulos.CurrentRow != null)
+            {
+                Articulo articuloSeleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+
+            if (articuloSeleccionado.Imagenes != null && articuloSeleccionado.Imagenes.Count > 0)
                 {
+                    // Cargar imagen actual.
                     cargarImagen(articuloSeleccionado.Imagenes[indiceImagenActual].ImagenUrl);
-                    lblContadorImagen.Text = "1 / " + articuloSeleccionado.Imagenes.Count.ToString();
+                    // Actualizamos label.
+                    lblContadorImagen.Text = (indiceImagenActual + 1).ToString() + " / " + articuloSeleccionado.Imagenes.Count.ToString();
+                    // Logica botones
+                    btnAnterior.Enabled = indiceImagenActual > 0;
+                    btnSiguiente.Enabled = indiceImagenActual < articuloSeleccionado.Imagenes.Count - 1;
                 }
                 else
                 {
+                    // Si no hay imagen mostramos vacio y botones OFF.
                     cargarImagen("");
                     lblContadorImagen.Text = "0 / 0";
+                    btnAnterior.Enabled = false;
+                    btnSiguiente.Enabled = false;
                 }
             }
         }
@@ -159,6 +165,18 @@ namespace TPWinForm_equipo_A.UI
             }
             dgvArticulos.DataSource = null;
             dgvArticulos.DataSource = listaFiltrada;
+        }
+
+        private void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            indiceImagenActual++;
+            actualizarVisorImagen();
+        }
+
+        private void btnAnterior_Click(object sender, EventArgs e)
+        {
+            indiceImagenActual--;
+            actualizarVisorImagen();
         }
     }
 }

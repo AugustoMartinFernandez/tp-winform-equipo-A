@@ -89,6 +89,7 @@
             this.btnAnterior.TabIndex = 4;
             this.btnAnterior.Text = "<--";
             this.btnAnterior.UseVisualStyleBackColor = true;
+            this.btnAnterior.Click += new System.EventHandler(this.btnAnterior_Click);
             // 
             // btnSiguiente
             // 
@@ -98,7 +99,7 @@
             this.btnSiguiente.TabIndex = 5;
             this.btnSiguiente.Text = "-->";
             this.btnSiguiente.UseVisualStyleBackColor = true;
-            this.btnSiguiente.Click += new System.EventHandler(this.button2_Click);
+            this.btnSiguiente.Click += new System.EventHandler(this.btnSiguiente_Click);
             // 
             // lblContadorImagen
             // 
@@ -108,7 +109,6 @@
             this.lblContadorImagen.Size = new System.Drawing.Size(24, 13);
             this.lblContadorImagen.TabIndex = 6;
             this.lblContadorImagen.Text = "1/1";
-            this.lblContadorImagen.Click += new System.EventHandler(this.label1_Click);
             // 
             // btnModificarArticulo
             // 
