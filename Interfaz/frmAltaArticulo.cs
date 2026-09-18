@@ -23,6 +23,8 @@ namespace TPWinForm_equipo_A.UI
         private bool imagenCargoBien = false;
         // Guarda la ruta final de la imagen local ya copiada, para guardarla en la bd
         private string rutaImagenFinal = null;
+        // Cada vez que el usuario agregue una URL, la vamos a sumar aca con .Add() Cada vez que elimine una la sacamos con .Remove() Y la grilla siempre muestra el contenido actual de esta lista.
+        private List<Imagen> listaImagenes = new List<Imagen>();
 
         public frmAltaArticulo()
         {
@@ -63,9 +65,23 @@ namespace TPWinForm_equipo_A.UI
                     // Cargamos la imagen existente al abrir la ventana de modificación
                     if (articulo.Imagenes != null && articulo.Imagenes.Count > 0)
                     {
-                        txtImagenUrl.Text = articulo.Imagenes[0].ImagenUrl;
-                        cargarImagen(txtImagenUrl.Text);
+                        // crea una copia nueva de la lista, no la misma referencia.
+                        listaImagenes = new List<Imagen>(articulo.Imagenes);
+                        actualizarGrillaImagenes();
+
+                        // Muestro la primera como vista previa en el PictureBox
+                        cargarImagen(listaImagenes[0].ImagenUrl);
                     }
+                    else
+                    {
+                        // El articulo no tiene ninguna imagen cargada muestro el placeholder desde el arranque, en vez de dejar el PictureBox en blanco
+                        cargarImagen("");
+                    }
+                }
+                else
+                {
+                    // Alta nueva todavia no hay ninguna imagen, mostramos el placeholder desde el arranque.
+                    cargarImagen("");
                 }
             }
             catch (Exception ex)
@@ -87,6 +103,11 @@ namespace TPWinForm_equipo_A.UI
                 pbxImagen.Load("https://product-list.sfo3.digitaloceanspaces.com/products/free-placeholder-image-generator/images/f4b83d56-b4f0-48fc-87fa-9a10b0dc4668.png");
                 imagenCargoBien = false; // La imagen no se cargo correctamente, se muestra el placeholder
             }
+        }
+        private void actualizarGrillaImagenes()
+        {
+            dgvImagenes.DataSource = null;
+            dgvImagenes.DataSource = new List<Imagen>(listaImagenes);
         }
 
         private void txtImagenUrl_Leave(object sender, EventArgs e)
@@ -118,38 +139,10 @@ namespace TPWinForm_equipo_A.UI
                 articulo.Marca = (Marca)cmbMarca.SelectedItem;
                 articulo.Categoria = (Categoria)cmbCategoria.SelectedItem;
 
-                // Capturamos la URL del TextBox y la guardamos en la lista de imágenes del articulo
-                if (!string.IsNullOrWhiteSpace(txtImagenUrl.Text))
-                {
-                    if (articulo.Imagenes == null)
-                        articulo.Imagenes = new List<Imagen>();
+                // Le paso al articulo la lista completa de imagenes que se armo en pantalla
+                articulo.Imagenes = listaImagenes;
 
-                    // Decido que ruta guardar en la bd
-                    // Si es local (use el boton, rutaImagenFinal tiene valor) guardo la ruta de la copia
-                    // Si es una URL de internet guardo la URL tal cual
-                    string urlParaGuardar;
-                    if (rutaImagenFinal != null)
-                    {
-                        urlParaGuardar = rutaImagenFinal; // imagen local la ruta de la copia
-                    }
-                    else
-                    {
-                        urlParaGuardar = txtImagenUrl.Text; // imagen de internet la URL
-                    }
-
-                    if (articulo.Imagenes.Count == 0)
-                    {
-                        Imagen nuevaImg = new Imagen();
-                        nuevaImg.ImagenUrl = urlParaGuardar;
-                        articulo.Imagenes.Add(nuevaImg);
-                    }
-                    else
-                    {
-                        articulo.Imagenes[0].ImagenUrl = urlParaGuardar;
-                    }
-                }
-
-                if(articulo.Id != 0)
+                if (articulo.Id != 0)
                 {
                     negocio.modificar(articulo);
                     MessageBox.Show("Articulo modificado correctamente.");
@@ -159,10 +152,13 @@ namespace TPWinForm_equipo_A.UI
                     negocio.agregar(articulo);
                     MessageBox.Show("Articulo guardado correctamente.");
                 }
-                // Guardo imagen si la levanto localmente
-                if (archivo != null && rutaImagenFinal != null)
+                // Copio a la carpeta local todas las imagenes que vinieron de un archivo
+                foreach (Imagen img in listaImagenes)
                 {
-                    File.Copy(archivo.FileName, rutaImagenFinal,true);
+                    if (img.RutaOrigenLocal != null)
+                    {
+                        File.Copy(img.RutaOrigenLocal, img.ImagenUrl, true);
+                    }
                 }
 
                 this.Close();
@@ -232,7 +228,7 @@ namespace TPWinForm_equipo_A.UI
                 return true;
             }
             // Imagen obligatoria y que haya cargado bien
-            if (string.IsNullOrWhiteSpace(txtImagenUrl.Text))
+            if (listaImagenes.Count == 0)
             {
                 MessageBox.Show("Tenes que cargar una imagen (URL o archivo)");
                 return true;
@@ -302,6 +298,74 @@ namespace TPWinForm_equipo_A.UI
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnSumarImagen_Click(object sender, EventArgs e)
+        {
+            // Si no hay nada escrito, no hay nada para agregar
+            if (string.IsNullOrWhiteSpace(txtImagenUrl.Text))
+            {
+                MessageBox.Show("Escribi una URL o elegi un archivo antes de agregarla a la lista.");
+                return;
+            }
+            // Imagen nueva decidiendo la misma URL/ruta que ya calculaba btnGuardar
+            Imagen nuevaImg = new Imagen();
+            if (rutaImagenFinal != null)
+            {
+                nuevaImg.ImagenUrl = rutaImagenFinal; // Local
+                nuevaImg.RutaOrigenLocal = archivo.FileName;
+            }
+            else
+            {
+                nuevaImg.ImagenUrl = txtImagenUrl.Text; // Url
+                nuevaImg.RutaOrigenLocal = null;
+            }
+
+            listaImagenes.Add(nuevaImg);
+            actualizarGrillaImagenes();
+
+            // Limpio los campos para que el usuario pueda cargar la siguiente imagen
+            txtImagenUrl.Text = "";
+            rutaImagenFinal = null;
+            archivo = null;
+        }
+
+        private void btnEliminarImagen_Click(object sender, EventArgs e)
+        {
+            if (dgvImagenes.CurrentRow != null)
+            {
+                Imagen imagenSeleccionada = (Imagen)dgvImagenes.CurrentRow.DataBoundItem;
+
+                // Le muestro al usuario cual imagen especifica va a eliminar, no un mensaje generico
+                DialogResult respuesta = MessageBox.Show(
+                    "Se eliminara la imagen:\n" + imagenSeleccionada.ImagenUrl + "\n\n¿Estas seguro?",
+                    "Eliminar imagen",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (respuesta == DialogResult.Yes)
+                {
+                    listaImagenes.Remove(imagenSeleccionada);
+                    actualizarGrillaImagenes();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Seleccioná una imagen de la lista para eliminarla.");
+            }
+        }
+
+        private void dgvImagenes_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvImagenes.CurrentRow != null)
+            {
+                Imagen imagenSeleccionada = (Imagen)dgvImagenes.CurrentRow.DataBoundItem;
+
+                // Si es local y todavia no se copio, la vista previa se hace desde el origen.
+                // Si no tiene origen local (URL, o imagen ya guardada antes), se usa ImagenUrl.
+                string rutaParaPreview = imagenSeleccionada.RutaOrigenLocal ?? imagenSeleccionada.ImagenUrl;
+                cargarImagen(rutaParaPreview);
+            }
         }
     }
 }

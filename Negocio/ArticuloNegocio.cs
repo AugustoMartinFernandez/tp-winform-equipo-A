@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Negocio
 {
     public class ArticuloNegocio
@@ -86,7 +87,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsultas("INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio, IdMarca, IdCategoria) VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria)");
+                datos.setearConsultas("INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio, IdMarca, IdCategoria) VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria)" + " SELECT SCOPE_IDENTITY()");
 
                 datos.setearParametro("@Codigo", nuevoArticulo.Codigo);
                 datos.setearParametro("@Nombre", nuevoArticulo.Nombre);
@@ -95,7 +96,14 @@ namespace Negocio
                 datos.setearParametro("@IdMarca", nuevoArticulo.Marca.Id);
                 datos.setearParametro("@IdCategoria", nuevoArticulo.Categoria.Id);
 
-                datos.ejecutarAccion();
+                // EJECUTARESCALAR devuelve el id del articulo recien insertado
+               int idArticuloNuevo = datos.ejecutarEscalar();
+
+                // Recorro todas las imagenes de la lista y las inserto cada una con el id del articulo que se acaba de crear
+                foreach (Imagen img in nuevoArticulo.Imagenes)
+                {
+                    agregarImagen(idArticuloNuevo,img.ImagenUrl);
+                }
             }
             catch (Exception ex)
             {
@@ -104,25 +112,46 @@ namespace Negocio
             finally {
                 datos.cerrarConexion(); 
             }
-
-            // GUARDAR LA IMAGEN EN LA BASE DE DATOS
-            if (nuevoArticulo.Imagenes != null && nuevoArticulo.Imagenes.Count > 0 && !string.IsNullOrWhiteSpace(nuevoArticulo.Imagenes[0].ImagenUrl))
+        }
+        // Insertaremos una imagen asociada a un articulo, lo realizamos aparte para despues poder reusarlo en modificar
+        public void agregarImagen(int IdArticulo, string url)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
             {
-                AccesoDatos datosImg = new AccesoDatos();
-                try
-                {
-                    datosImg.setearConsultas("INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES ((SELECT MAX(Id) FROM ARTICULOS), @ImagenUrl)");
-                    datosImg.setearParametro("@ImagenUrl", nuevoArticulo.Imagenes[0].ImagenUrl);
-                    datosImg.ejecutarAccion();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    datosImg.cerrarConexion();
-                }
+                datos.setearConsultas("INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@IdArticulo, @ImagenUrl)");
+                datos.setearParametro("@IdArticulo",IdArticulo);
+                datos.setearParametro("@ImagenUrl",url);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        //  Borra todas las imagenes asociadas a un articulo. Se usa antes de volver a insertar la lista actual, al modificar
+        public void eliminarImagenesDeArticulo(int idArticulo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsultas("DELETE FROM IMAGENES WHERE IdArticulo = @IdArticulo");
+                datos.setearParametro("@IdArticulo", idArticulo);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
             }
         }
 
@@ -150,32 +179,14 @@ namespace Negocio
             { 
                 datos.cerrarConexion(); 
             }
+            // Borramos todas la imagenes viejas del articulo y despues insertamos las que estan en la lista actual. asi el resultado final siempre coincidira con lo que hay en la lista, no importara si agrego o borro o no hago nada
+            eliminarImagenesDeArticulo(modificarArticulo.Id);
 
-            // ACTUALIZAR O INSERTAR LA IMAGEN AL MODIFICAR
-            if (modificarArticulo.Imagenes != null && modificarArticulo.Imagenes.Count > 0 && !string.IsNullOrWhiteSpace(modificarArticulo.Imagenes[0].ImagenUrl))
+            foreach (Imagen img in modificarArticulo.Imagenes)
             {
-                AccesoDatos datosImg = new AccesoDatos();
-                try
-                {
-                    string query = "IF EXISTS (SELECT 1 FROM IMAGENES WHERE IdArticulo = @IdArticulo) " +
-                                   "UPDATE IMAGENES SET ImagenUrl = @ImagenUrl WHERE IdArticulo = @IdArticulo; " +
-                                   "ELSE " +
-                                   "INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@IdArticulo, @ImagenUrl);";
-
-                    datosImg.setearConsultas(query);
-                    datosImg.setearParametro("@ImagenUrl", modificarArticulo.Imagenes[0].ImagenUrl);
-                    datosImg.setearParametro("@IdArticulo", modificarArticulo.Id);
-                    datosImg.ejecutarAccion();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    datosImg.cerrarConexion();
-                }
+                agregarImagen(modificarArticulo.Id, img.ImagenUrl);
             }
+
         }
 
         public void eliminar(int id)

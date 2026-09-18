@@ -81,5 +81,19 @@ namespace Negocio
             }
             conexion.Close();
         }
+
+        public int ejecutarEscalar()
+{
+    try
+    {
+        comando.Connection = conexion;
+        conexion.Open();
+        return Convert.ToInt32(comando.ExecuteScalar());
+    }
+    catch (Exception ex)
+    {
+        throw ex;
+    }
+}
     }
 }
