@@ -47,6 +47,7 @@
             this.pbxArticulo = new System.Windows.Forms.PictureBox();
             this.pnlCentro = new System.Windows.Forms.Panel();
             this.dgvArticulos = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
             this.pnlBotones.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).BeginInit();
             this.pnlImagen.SuspendLayout();
@@ -58,6 +59,7 @@
             // pnlBotones
             // 
             this.pnlBotones.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pnlBotones.Controls.Add(this.button1);
             this.pnlBotones.Controls.Add(this.pbxLogo);
             this.pnlBotones.Controls.Add(this.lblContadorArticulos);
             this.pnlBotones.Controls.Add(this.txtFiltro);
@@ -302,6 +304,16 @@
             this.dgvArticulos.TabIndex = 1;
             this.dgvArticulos.SelectionChanged += new System.EventHandler(this.dgvArticulos_SelectionChanged);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(6, 441);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(319, 31);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Filtro Avanzado";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -351,5 +363,6 @@
         private System.Windows.Forms.PictureBox pbxArticulo;
         private System.Windows.Forms.Label lblContadorArticulos;
         private System.Windows.Forms.PictureBox pbxLogo;
+        private System.Windows.Forms.Button button1;
     }
 }

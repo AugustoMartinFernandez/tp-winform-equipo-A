@@ -211,5 +211,12 @@ namespace TPWinForm_equipo_A.UI
             indiceImagenActual++;
             actualizarVisorImagen();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            frmFiltroAvanzado filtro = new frmFiltroAvanzado();
+            filtro.ShowDialog();
+            cargarListado(); // Para que se refresque al volver
+        }
     }
 }
