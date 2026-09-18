@@ -9,5 +9,7 @@
 
         // Ruta o URL donde se encuentra alojada la imagen
         public string ImagenUrl { get ; set ; }
+        //  Si esta imagen viene de un archivo local, acá guardamos la ruta de origen (de donde copiarla). Si es una URL de internet, queda en null.
+        public string RutaOrigenLocal {  get ; set ; }
     }
 }
