@@ -178,5 +178,18 @@ namespace TPWinForm_equipo_A.UI
             indiceImagenActual--;
             actualizarVisorImagen();
         }
+
+        private void btnFiltroAvanzado_Click(object sender, EventArgs e)
+        {
+    
+    frmFiltroAvanzado ventana = new frmFiltroAvanzado();
+    ventana.Show(this); // Abre el bus
     }
+
+        private void frmArticulos_Activated(object sender, EventArgs e)
+        {
+            cargarListado() ;
+        }
+    }
+    
 }

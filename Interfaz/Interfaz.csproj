@@ -59,6 +59,12 @@
     <Compile Include="frmAltaArticulo.Designer.cs">
       <DependentUpon>frmAltaArticulo.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmFiltroAvanzado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFiltroAvanzado.Designer.cs">
+      <DependentUpon>frmFiltroAvanzado.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmGestionMarcaCategoria.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAltaArticulo.resx">
       <DependentUpon>frmAltaArticulo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFiltroAvanzado.resx">
+      <DependentUpon>frmFiltroAvanzado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGestionMarcaCategoria.resx">
       <DependentUpon>frmGestionMarcaCategoria.cs</DependentUpon>
