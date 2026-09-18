@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPrincipal));
             this.pnlBotones = new System.Windows.Forms.Panel();
+            this.pbxLogo = new System.Windows.Forms.PictureBox();
             this.lblContadorArticulos = new System.Windows.Forms.Label();
             this.txtFiltro = new System.Windows.Forms.TextBox();
             this.lblFiltro = new System.Windows.Forms.Label();
@@ -46,13 +47,12 @@
             this.pbxArticulo = new System.Windows.Forms.PictureBox();
             this.pnlCentro = new System.Windows.Forms.Panel();
             this.dgvArticulos = new System.Windows.Forms.DataGridView();
-            this.pbxLogo = new System.Windows.Forms.PictureBox();
             this.pnlBotones.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).BeginInit();
             this.pnlImagen.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).BeginInit();
             this.pnlCentro.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlBotones
@@ -74,13 +74,25 @@
             this.pnlBotones.Size = new System.Drawing.Size(331, 768);
             this.pnlBotones.TabIndex = 3;
             // 
+            // pbxLogo
+            // 
+            this.pbxLogo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbxLogo.Image = global::TPWinForm_equipo_A.UI.Properties.Resources.logo;
+            this.pbxLogo.Location = new System.Drawing.Point(0, 0);
+            this.pbxLogo.Name = "pbxLogo";
+            this.pbxLogo.Size = new System.Drawing.Size(331, 333);
+            this.pbxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbxLogo.TabIndex = 16;
+            this.pbxLogo.TabStop = false;
+            // 
             // lblContadorArticulos
             // 
             this.lblContadorArticulos.AutoSize = true;
             this.lblContadorArticulos.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblContadorArticulos.Font = new System.Drawing.Font("Cooper Black", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblContadorArticulos.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblContadorArticulos.Location = new System.Drawing.Point(298, 336);
+            this.lblContadorArticulos.Location = new System.Drawing.Point(286, 336);
             this.lblContadorArticulos.Name = "lblContadorArticulos";
             this.lblContadorArticulos.Size = new System.Drawing.Size(30, 31);
             this.lblContadorArticulos.TabIndex = 15;
@@ -88,8 +100,7 @@
             // 
             // txtFiltro
             // 
-            this.txtFiltro.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtFiltro.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFiltro.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtFiltro.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -112,8 +123,7 @@
             // 
             // btnGestionCategoria
             // 
-            this.btnGestionCategoria.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnGestionCategoria.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnGestionCategoria.BackColor = System.Drawing.Color.DimGray;
             this.btnGestionCategoria.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -129,8 +139,7 @@
             // 
             // btnGestionMarca
             // 
-            this.btnGestionMarca.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnGestionMarca.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnGestionMarca.BackColor = System.Drawing.Color.White;
             this.btnGestionMarca.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -145,8 +154,7 @@
             // 
             // btnEliminacionFisicaArticulo
             // 
-            this.btnEliminacionFisicaArticulo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnEliminacionFisicaArticulo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEliminacionFisicaArticulo.BackColor = System.Drawing.Color.Crimson;
             this.btnEliminacionFisicaArticulo.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -174,8 +182,7 @@
             // 
             // btnModificarArticulo
             // 
-            this.btnModificarArticulo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnModificarArticulo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnModificarArticulo.BackColor = System.Drawing.Color.Gold;
             this.btnModificarArticulo.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -191,8 +198,7 @@
             // 
             // btnNuevoArticulo
             // 
-            this.btnNuevoArticulo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnNuevoArticulo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNuevoArticulo.BackColor = System.Drawing.SystemColors.Highlight;
             this.btnNuevoArticulo.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -278,32 +284,23 @@
             // 
             // dgvArticulos
             // 
+            this.dgvArticulos.AllowUserToAddRows = false;
+            this.dgvArticulos.AllowUserToDeleteRows = false;
             this.dgvArticulos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvArticulos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvArticulos.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvArticulos.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dgvArticulos.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.dgvArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvArticulos.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.dgvArticulos.GridColor = System.Drawing.Color.Fuchsia;
             this.dgvArticulos.Location = new System.Drawing.Point(0, 0);
             this.dgvArticulos.Name = "dgvArticulos";
+            this.dgvArticulos.ReadOnly = true;
             this.dgvArticulos.Size = new System.Drawing.Size(921, 768);
             this.dgvArticulos.TabIndex = 1;
             this.dgvArticulos.SelectionChanged += new System.EventHandler(this.dgvArticulos_SelectionChanged);
-            // 
-            // pbxLogo
-            // 
-            this.pbxLogo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbxLogo.Image = global::TPWinForm_equipo_A.UI.Properties.Resources.logo;
-            this.pbxLogo.Location = new System.Drawing.Point(0, 0);
-            this.pbxLogo.Name = "pbxLogo";
-            this.pbxLogo.Size = new System.Drawing.Size(331, 333);
-            this.pbxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbxLogo.TabIndex = 16;
-            this.pbxLogo.TabStop = false;
             // 
             // frmPrincipal
             // 
@@ -317,7 +314,7 @@
             this.Controls.Add(this.pnlBotones);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
-            this.MaximumSize = new System.Drawing.Size(1602, 807);
+            this.MinimumSize = new System.Drawing.Size(1602, 807);
             this.Name = "frmPrincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Inicio";
@@ -325,12 +322,12 @@
             this.Load += new System.EventHandler(this.frmprincipal_Load);
             this.pnlBotones.ResumeLayout(false);
             this.pnlBotones.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).EndInit();
             this.pnlImagen.ResumeLayout(false);
             this.pnlImagen.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).EndInit();
             this.pnlCentro.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).EndInit();
             this.ResumeLayout(false);
 
         }

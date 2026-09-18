@@ -78,6 +78,11 @@ namespace TPWinForm_equipo_A.UI
                         cargarImagen("");
                     }
                 }
+                else
+                {
+                    // Alta nueva todavia no hay ninguna imagen, mostramos el placeholder desde el arranque.
+                    cargarImagen("");
+                }
             }
             catch (Exception ex)
             {
