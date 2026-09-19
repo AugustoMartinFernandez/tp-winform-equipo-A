@@ -35,6 +35,10 @@ namespace TPWinForm_equipo_A.UI
             {
                 listaCompleta = negocio.listar();
                 dgvArticulos.DataSource = listaCompleta;
+                dgvArticulos.Columns["Id"].Visible = false;
+                dgvArticulos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dgvArticulos.Columns["Precio"].DefaultCellStyle.Format = "$ #,##0.00";
+                dgvArticulos.RowHeadersVisible = false;
                 lblContadorArticulos.Text = listaCompleta.Count.ToString();
             }
             catch (Exception ex)
