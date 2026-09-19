@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPrincipal));
             this.pnlBotones = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.pbxLogo = new System.Windows.Forms.PictureBox();
             this.lblContadorArticulos = new System.Windows.Forms.Label();
             this.txtFiltro = new System.Windows.Forms.TextBox();
@@ -47,7 +48,6 @@
             this.pbxArticulo = new System.Windows.Forms.PictureBox();
             this.pnlCentro = new System.Windows.Forms.Panel();
             this.dgvArticulos = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
             this.pnlBotones.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).BeginInit();
             this.pnlImagen.SuspendLayout();
@@ -73,8 +73,18 @@
             this.pnlBotones.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlBotones.Location = new System.Drawing.Point(0, 0);
             this.pnlBotones.Name = "pnlBotones";
-            this.pnlBotones.Size = new System.Drawing.Size(331, 768);
+            this.pnlBotones.Size = new System.Drawing.Size(331, 749);
             this.pnlBotones.TabIndex = 3;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(6, 441);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(319, 31);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Filtro Avanzado";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // pbxLogo
             // 
@@ -222,9 +232,9 @@
             this.pnlImagen.Controls.Add(this.btnAnterior);
             this.pnlImagen.Controls.Add(this.pbxArticulo);
             this.pnlImagen.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlImagen.Location = new System.Drawing.Point(1252, 0);
+            this.pnlImagen.Location = new System.Drawing.Point(1036, 0);
             this.pnlImagen.Name = "pnlImagen";
-            this.pnlImagen.Size = new System.Drawing.Size(334, 768);
+            this.pnlImagen.Size = new System.Drawing.Size(334, 749);
             this.pnlImagen.TabIndex = 4;
             // 
             // lblContadorImagen
@@ -281,7 +291,7 @@
             this.pnlCentro.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlCentro.Location = new System.Drawing.Point(331, 0);
             this.pnlCentro.Name = "pnlCentro";
-            this.pnlCentro.Size = new System.Drawing.Size(921, 768);
+            this.pnlCentro.Size = new System.Drawing.Size(705, 749);
             this.pnlCentro.TabIndex = 5;
             // 
             // dgvArticulos
@@ -300,19 +310,9 @@
             this.dgvArticulos.Location = new System.Drawing.Point(0, 0);
             this.dgvArticulos.Name = "dgvArticulos";
             this.dgvArticulos.ReadOnly = true;
-            this.dgvArticulos.Size = new System.Drawing.Size(921, 768);
+            this.dgvArticulos.Size = new System.Drawing.Size(705, 749);
             this.dgvArticulos.TabIndex = 1;
             this.dgvArticulos.SelectionChanged += new System.EventHandler(this.dgvArticulos_SelectionChanged);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(6, 441);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(319, 31);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Filtro Avanzado";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // frmPrincipal
             // 
@@ -320,13 +320,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1586, 768);
+            this.ClientSize = new System.Drawing.Size(1370, 749);
             this.Controls.Add(this.pnlCentro);
             this.Controls.Add(this.pnlImagen);
             this.Controls.Add(this.pnlBotones);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
-            this.MinimumSize = new System.Drawing.Size(1602, 807);
+            this.MinimumSize = new System.Drawing.Size(1364, 718);
             this.Name = "frmPrincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Inicio";
